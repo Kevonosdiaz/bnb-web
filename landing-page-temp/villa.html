@@ -29,6 +29,9 @@
                 justify-content: center;
                 align-items: center;
             }
+            .room-image {
+                max-width: 50%;
+            }
         </style>
     </head>
 
@@ -72,7 +75,7 @@
                             class="dropdown-menu"
                             aria-labelledby="navbarDropdownMenuLink"
                         >
-                            <a class="dropdown-item" href="./cabin.html"
+                            <a class="dropdown-item" href="./suite.html"
                                 >Modern Suite</a
                             >
                             <a class="dropdown-item" href="./villa.html"
@@ -89,12 +92,16 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col">
-                    <img src="./static/images/villa.png" class="img-fluid" />
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <img
+                        src="./static/images/villa.png"
+                        class="img-fluid img-thumbnail mx-auto d-block room-image"
+                        alt="room image"
+                    />
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col text-center">
                     <h1 class="text-center mt-4">Beach Villa</h1>
                     <p>
                         Lorem, ipsum dolor sit amet consectetur adipisicing
