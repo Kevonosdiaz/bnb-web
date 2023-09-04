@@ -92,43 +92,56 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
                     <h1 class="text-center mt-5">Search for Availability</h1>
                     <form action="reservation.html" method="get">
-                        <div class="form-group">
-                            <label for="start_date">Starting Date</label>
-                            <input
-                                type="date"
-                                class="form-control"
-                                id="start_date"
-                                name="start_date"
-                                aria-describedby="startDateHelp"
-                                placeholder="Enter date"
-                            />
-                            <small
-                                id="startDateHelp"
-                                class="form-text text-muted"
-                                >Enter your starting date in the form of
-                                YYYY-MM-DD</small
-                            >
-                        </div>
-                        <div class="form-group">
-                            <label for="end_date">Ending Date</label>
-                            <input
-                                type="date"
-                                class="form-control"
-                                id="end_date"
-                                name="end_date"
-                                aria-describedby="endDateHelp"
-                                placeholder="Enter date"
-                            />
-                            <small id="endDateHelp" class="form-text text-muted"
-                                >Enter your ending date in the form of
-                                YYYY-MM-DD</small
-                            >
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="start_date"
+                                        >Starting Date</label
+                                    >
+                                    <input
+                                        required
+                                        type="date"
+                                        class="form-control"
+                                        id="start_date"
+                                        name="start_date"
+                                        aria-describedby="startDateHelp"
+                                        placeholder="MM-DD-YYYY"
+                                    />
+                                    <small
+                                        id="startDateHelp"
+                                        class="form-text text-muted"
+                                        >Enter your starting date in the form of
+                                        MM-DD-YYYY</small
+                                    >
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="end_date">Ending Date</label>
+                                    <input
+                                        required
+                                        type="date"
+                                        class="form-control"
+                                        id="end_date"
+                                        name="end_date"
+                                        aria-describedby="endDateHelp"
+                                        placeholder="MM-DD-YYYY"
+                                    />
+                                    <small
+                                        id="endDateHelp"
+                                        class="form-text text-muted"
+                                        >Enter your ending date in the form of
+                                        MM-DD-YYYY</small
+                                    >
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">
-                            Submit
+                            Search Availability
                         </button>
                     </form>
                 </div>
