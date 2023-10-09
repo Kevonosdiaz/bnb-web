@@ -147,6 +147,8 @@
         <script src="https://unpkg.com/notie"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
+            let attention = Prompt();
+
             // Example starter JavaScript for disabling form submissions if there are invalid fields
             (() => {
                 "use strict";
@@ -173,8 +175,79 @@
 
             document.getElementById("colorButton").addEventListener("click", function () {
                 // notify("This is my message", "warning");
-                notifyModal("Wow!", "<em>Hello, world!</em>", "success", "Okay");
+                // notifyModal("Wow!", "<em>Hello, world!</em>", "success", "Okay");
+                // attention.toast({ msg: "Incorrect credentials!", icon: "error" });
+                attention.error({ title: "Title", msg: "Oops!" });
             });
+
+            // Prompt() is a JS module for notifications/alerts
+            function Prompt() {
+                let toast = function (c) {
+                    // Provide defaults
+                    const { msg = "", icon = "success", position = "top-end" } = c;
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        title: msg,
+                        position: position,
+                        icon: icon,
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener("mouseenter", Swal.stopTimer);
+                            toast.addEventListener("mouseleave", Swal.resumeTimer);
+                        },
+                    });
+
+                    Toast.fire({});
+                };
+                let success = function (c) {
+                    const { title = "", msg = "", footer = "" } = c;
+                    Swal.fire({
+                        icon: "success",
+                        title: title,
+                        text: msg,
+                        footer: footer,
+                    });
+                };
+
+                let error = function (c) {
+                    const { title = "", msg = "", footer = "" } = c;
+                    Swal.fire({
+                        icon: "error",
+                        title: title,
+                        text: msg,
+                        footer: footer,
+                    });
+                };
+
+                async function custom(c) {
+                    const { msg = "", title = "" } = c;
+                    const { value: formValues } = await Swal.fire({
+                        title: title,
+                        html: msg,
+                        backdrop: false,
+                        focusConfirm: false,
+                        showCancelButton: true,
+                        preConfirm: () => {
+                            return [
+                                document.getElementById("swal-input1").value,
+                                document.getElementById("swal-input2").value,
+                            ];
+                        },
+                    });
+
+                    if (formValues) {
+                        Swal.fire(JSON.stringify(formValues));
+                    }
+                }
+
+                return {
+                    toast: toast,
+                    success: success,
+                    error: error,
+                };
+            }
 
             function notify(msg, msgType) {
                 notie.alert({
