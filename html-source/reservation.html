@@ -16,7 +16,7 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs4.min.css" />
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css" />
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css" />
         <style>
             .my-footer {
                 height: 5em;
@@ -30,8 +30,8 @@
                 align-items: center;
             }
 
-            .redText {
-                color: red;
+            .datepicker {
+                z-index: 10000;
             }
         </style>
     </head>
@@ -83,16 +83,17 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <h1 class="text-center mt-5">Search for Availability</h1>
                     <form action="reservation.html" method="get" novalidate class="needs-validation">
+                        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-row" id="reservation-dates">
-                                    <div class="col">
+                                    <div class="col-md-6">
                                         <input
                                             required
                                             class="form-control"
@@ -100,7 +101,7 @@
                                             name="start"
                                             placeholder="Arrival Date" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md-6">
                                         <input
                                             required
                                             class="form-control"
@@ -115,17 +116,19 @@
                         <button type="submit" class="btn btn-primary">Search Availability</button>
                     </form>
                 </div>
+                <div class="col-md-3"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p id="myParagraph">This is some text.</p>
+                    <p>
+                        <button class="btn btn-outline-secondary" id="colorButton">Click me</button>
+                    </p>
+                </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <p id="myParagraph">This is some text.</p>
-                <button class="btn btn-outline-secondary" id="colorButton">Click me</button>
-            </div>
-        </div>
-
-        <div class="row my-footer">
+        <footer class="row my-footer">
             <div class="row">
                 <!-- <div class="col">left</div> -->
 
@@ -133,7 +136,7 @@
 
                 <!-- <div class="col">right</div> -->
             </div>
-        </div>
+        </footer>
 
         <script
             src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -177,7 +180,46 @@
                 // notify("This is my message", "warning");
                 // notifyModal("Wow!", "<em>Hello, world!</em>", "success", "Okay");
                 // attention.toast({ msg: "Incorrect credentials!", icon: "error" });
-                attention.error({ title: "Title", msg: "Oops!" });
+                let html = `
+                    <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-row" id="reservation-dates-modal">
+                                    <div class="col">
+                                        <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+                                    </div>
+                                    <div class="col">
+                                        <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    `;
+                attention.custom({ msg: html, title: "Choose your dates:" });
+            });
+
+            function notify(msg, msgType) {
+                notie.alert({
+                    type: msgType,
+                    text: msg,
+                });
+            }
+
+            function notifyModal(title, text, icon, confirmationText) {
+                Swal.fire({
+                    title: title,
+                    html: text,
+                    icon: icon,
+                    confirmButtonText: confirmationText,
+                });
+            }
+
+            const elem = document.getElementById("reservation-dates");
+            const rangepicker = new DateRangePicker(elem, {
+                // ...options
+                format: "yyyy-mm-dd",
             });
 
             // Prompt() is a JS module for notifications/alerts
@@ -229,11 +271,19 @@
                         backdrop: false,
                         focusConfirm: false,
                         showCancelButton: true,
+                        willOpen: () => {
+                            const elem = document.getElementById("reservation-dates-modal");
+                            const rp = new DateRangePicker(elem, {
+                                format: "yyyy-mm-dd",
+                                showOnFocus: true,
+                            });
+                        },
                         preConfirm: () => {
-                            return [
-                                document.getElementById("swal-input1").value,
-                                document.getElementById("swal-input2").value,
-                            ];
+                            return [document.getElementById("start").value, document.getElementById("end").value];
+                        },
+                        didOpen: () => {
+                            document.getElementById("start").removeAttribute("disabled");
+                            document.getElementById("end").removeAttribute("disabled");
                         },
                     });
 
@@ -246,30 +296,9 @@
                     toast: toast,
                     success: success,
                     error: error,
+                    custom: custom,
                 };
             }
-
-            function notify(msg, msgType) {
-                notie.alert({
-                    type: msgType,
-                    text: msg,
-                });
-            }
-
-            function notifyModal(title, text, icon, confirmationText) {
-                Swal.fire({
-                    title: title,
-                    html: text,
-                    icon: icon,
-                    confirmButtonText: confirmationText,
-                });
-            }
-
-            const elem = document.getElementById("reservation-dates");
-            const rangepicker = new DateRangePicker(elem, {
-                // ...options
-                format: "yyyy-mm-dd",
-            });
         </script>
     </body>
 </html>
