@@ -15,6 +15,7 @@
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs4.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css" />
 
         <style>
             .my-footer {
@@ -120,7 +121,7 @@
         <div class="row">
             <div class="col">
                 <p id="myParagraph">This is some text.</p>
-                <button class="btn btn-outline-secondary" id="colorButton">Click me to change text color</button>
+                <button class="btn btn-outline-secondary" id="colorButton">Click me</button>
             </div>
         </div>
 
@@ -143,6 +144,8 @@
             integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
             crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/js/datepicker-full.min.js"></script>
+        <script src="https://unpkg.com/notie"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             // Example starter JavaScript for disabling form submissions if there are invalid fields
             (() => {
@@ -167,6 +170,27 @@
                     );
                 });
             })();
+
+            document.getElementById("colorButton").addEventListener("click", function () {
+                // notify("This is my message", "warning");
+                notifyModal("Wow!", "<em>Hello, world!</em>", "success", "Okay");
+            });
+
+            function notify(msg, msgType) {
+                notie.alert({
+                    type: msgType,
+                    text: msg,
+                });
+            }
+
+            function notifyModal(title, text, icon, confirmationText) {
+                Swal.fire({
+                    title: title,
+                    html: text,
+                    icon: icon,
+                    confirmButtonText: confirmationText,
+                });
+            }
 
             const elem = document.getElementById("reservation-dates");
             const rangepicker = new DateRangePicker(elem, {
