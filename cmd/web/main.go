@@ -47,7 +47,7 @@ func main() {
 	fmt.Println(fmt.Sprintf("Starting application on port %s", PORT_NO))
 
 	// Start the web server, with port being 8080
-	srv := *&http.Server{
+	srv := &http.Server{
 		Addr:    PORT_NO,
 		Handler: routes(&app),
 	}
